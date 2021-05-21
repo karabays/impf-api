@@ -49,7 +49,7 @@ def load_state_data():
             tsv_data.append(line)
     vaccinations_by_state = {}
     for i in tsv_data:
-        code = i.pop('region', None).lower()
+        code = i.pop('code', None).lower()
         vaccinations_by_state[code] = i
 
     total_tsv_data = []
