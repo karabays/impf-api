@@ -7,7 +7,7 @@ vaccinations_by_state = "https://impfdashboard.de/static/data/germany_vaccinatio
 
 def save_file(url):
     file_name = url.rsplit('/', 1)[1]
-    r = requests.get(deliveries_timeseries, allow_redirects=True)
+    r = requests.get(url, allow_redirects=True)
     with open("app/"+file_name, 'wb') as f:
         f.write(r.content)
 
