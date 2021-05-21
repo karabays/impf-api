@@ -24,7 +24,7 @@ app = FastAPI()
 
 def load_states():
     csv_data = []
-    with open('germany_states.csv', 'r') as f:
+    with open('./app/germany_states.csv', 'r') as f:
         for line in csv.DictReader(f):
             csv_data.append(line)
     germany_states = {}
@@ -41,7 +41,7 @@ def load_states():
 
 def load_state_data():
     tsv_data = []
-    with open("germany_vaccinations_by_state.tsv", "r") as f:
+    with open("./app/germany_vaccinations_by_state.tsv", "r") as f:
         for line in csv.DictReader(f, delimiter="\t"):
             for key in line.keys():
                 if line[key].isdigit():
@@ -53,7 +53,7 @@ def load_state_data():
         vaccinations_by_state[code] = i
 
     total_tsv_data = []
-    with open("germany_vaccinations_timeseries_v2.tsv", "r") as f:
+    with open("./app/germany_vaccinations_timeseries_v2.tsv", "r") as f:
         reader = csv.reader(f, delimiter="\t")
         next(reader, None)
         for line in reader:
@@ -69,7 +69,7 @@ def load_state_data():
 
 def load_delivery_data():
     tsv_data = []
-    with open("germany_deliveries_timeseries_v2.tsv", "r") as f:
+    with open("./app/germany_deliveries_timeseries_v2.tsv", "r") as f:
         reader = csv.reader(f, delimiter="\t")
         next(reader, None)
         for line in reader:
