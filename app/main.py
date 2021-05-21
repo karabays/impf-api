@@ -20,11 +20,11 @@ state_list = ['bb','be','nd','bw','by','hb','he','hh',
 
 
 app = FastAPI()
-
+data_folder = "./data/"
 
 def load_states():
     csv_data = []
-    with open('./app/germany_states.csv', 'r') as f:
+    with open(data_folder+'germany_states.csv', 'r') as f:
         for line in csv.DictReader(f):
             csv_data.append(line)
     germany_states = {}
@@ -41,7 +41,7 @@ def load_states():
 
 def load_state_data():
     tsv_data = []
-    with open("./app/germany_vaccinations_by_state.tsv", "r") as f:
+    with open(data_folder+"germany_vaccinations_by_state.tsv", "r") as f:
         for line in csv.DictReader(f, delimiter="\t"):
             for key in line.keys():
                 if line[key].isdigit():
@@ -53,7 +53,7 @@ def load_state_data():
         vaccinations_by_state[code] = i
 
     total_tsv_data = []
-    with open("./app/germany_vaccinations_timeseries_v2.tsv", "r") as f:
+    with open(data_folder+"germany_vaccinations_timeseries_v2.tsv", "r") as f:
         reader = csv.reader(f, delimiter="\t")
         next(reader, None)
         for line in reader:
@@ -69,7 +69,7 @@ def load_state_data():
 
 def load_delivery_data():
     tsv_data = []
-    with open("./app/germany_deliveries_timeseries_v2.tsv", "r") as f:
+    with open(data_folder+"germany_deliveries_timeseries_v2.tsv", "r") as f:
         reader = csv.reader(f, delimiter="\t")
         next(reader, None)
         for line in reader:
@@ -95,6 +95,19 @@ def consolidate_data(code):
         vaccinations_by_state[kode]["peopleFullPercent"] = round(vaccinations_by_state[kode]["peopleFullTotal"]*100 / states_data[kode]['population'],1)
         vaccinations_by_state[kode]["vaccinesDelivered"] = delivery_data[kode]
     return vaccinations_by_state[code]
+
+
+def load_check_data():
+    with open(data_folder+'check.txt', 'r') as f:
+        last_check = f.read()
+    result = {'last_checked':last_check}
+    result['repository'] = "https://github.com/karabays/impf-api"
+    return result
+
+
+@app.get('/')
+def index():
+    return load_check_data()
 
 
 @app.get("/total/", response_model=Vaccination)
