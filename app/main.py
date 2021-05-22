@@ -23,6 +23,7 @@ state_list = ['bb','be','nd','bw','by','hb','he','hh',
 app = FastAPI()
 data_folder = Path(__file__).parent.joinpath('..\data')
 
+
 def load_states():
     csv_data = []
     with open(data_folder.joinpath("germany_states.csv"), 'r') as f:
