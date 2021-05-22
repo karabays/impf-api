@@ -1,6 +1,8 @@
+from pydantic.types import Json
 import requests
 import datetime as dt
 from pathlib import Path
+import json
 
 base_path = Path(__file__).parent.joinpath('data')
 
@@ -16,11 +18,14 @@ def save_file(url):
         f.write(r.content)
 
 
-def check_time():
-    with open(base_path.joinpath('check.txt'), 'w') as f:
-        f.write(str(dt.datetime.now()))
+def metadata():
+    metadata_json = requests.get("https://impfdashboard.de/static/data/metadata.json").json()
+    now = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    metadata_json['lastChecked'] = now
+    with open(base_path.joinpath('metadata.json'), 'w') as f:
+        f.write(json.dumps(metadata_json, indent=2))
 
 save_file(deliveries_timeseries)
 save_file(vaccinations_timeseries)
 save_file(vaccinations_by_state)
-check_time()
+metadata()

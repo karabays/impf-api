@@ -4,3 +4,4 @@ data/check.txt
 data/germany_vaccinations_by_state.tsv
 data/germany_deliveries_timeseries_v2.tsv
 data/germany_vaccinations_timeseries_v2.tsv
+data/metadata.json

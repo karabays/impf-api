@@ -23,7 +23,7 @@ Cron job to check data periodically.
 
 Really simple api with 3 endpoints. 
 
-For States, send a query with 2 digit state_code.
+For States, send a query with 2 digit `state_code`.
 
 | State Code | Name                   |
 |------------|------------------------|

@@ -3,6 +3,7 @@ from pydantic import BaseModel, validator
 from collections import Counter
 import csv
 from pathlib import Path
+import json
 
 class Vaccination(BaseModel):
     vaccinationsTotal: int
@@ -100,11 +101,10 @@ def consolidate_data(code):
 
 
 def load_check_data():
-    with open(data_folder.joinpath("check.txt"), 'r') as f:
-        last_check = f.read()
-    result = {'last_checked':last_check}
-    result['repository'] = "https://github.com/karabays/impf-api"
-    return result
+    with open(data_folder.joinpath("metadata.json"), 'r') as f:
+        metadata = json.load(f)
+    metadata['repository'] = "https://github.com/karabays/impf-api"
+    return metadata
 
 
 @app.get('/')
