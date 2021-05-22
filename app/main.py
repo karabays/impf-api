@@ -20,9 +20,12 @@ class Vaccination(BaseModel):
 state_list = ['bb','be','nd','bw','by','hb','he','hh',
          'mv','ni','nw','rp','sh','sl','sn','st','th']
 
-
-app = FastAPI()
 data_folder = Path(__file__).parent.joinpath('..\data')
+
+app = FastAPI(title="impf-API",
+    description="API to serve data from https://impfdashbaord.de",
+    version="0.9",
+)
 
 
 def load_states():

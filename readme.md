@@ -1,4 +1,4 @@
-# impf-api
+# impf-API
 
 URL: http://www.impf-api.xyz/
 
