@@ -6,6 +6,8 @@ from pathlib import Path
 import json
 
 class Vaccination(BaseModel):
+    '''Response model for the statistics.'''
+    
     vaccinationsTotal: int
     peopleFirstTotal: int
     peopleFullTotal: int
@@ -94,8 +96,11 @@ def consolidate_data(code):
     delivery_data = load_delivery_data()
     vaccinations_by_state = load_state_data()
     for kode in vaccinations_by_state.keys():
+        # english name of the state and population
         vaccinations_by_state[kode]["stateName"] = states_data[kode]['english-name']
         vaccinations_by_state[kode]["population"] = states_data[kode]['population']
+
+        # Calculate the percentages.
         vaccinations_by_state[kode]["vaccinationsPercent"] = round(vaccinations_by_state[kode]["vaccinationsTotal"]*100 / states_data[kode]['population'],1)
         vaccinations_by_state[kode]["peopleFirstPercent"] = round(vaccinations_by_state[kode]["peopleFirstTotal"]*100 / states_data[kode]['population'],1)
         vaccinations_by_state[kode]["peopleFullPercent"] = round(vaccinations_by_state[kode]["peopleFullTotal"]*100 / states_data[kode]['population'],1)
@@ -103,7 +108,7 @@ def consolidate_data(code):
     return vaccinations_by_state[code]
 
 
-def load_check_data():
+def load_metadata():
     with open(data_folder.joinpath("metadata.json"), 'r') as f:
         metadata = json.load(f)
     metadata['repository'] = "https://github.com/karabays/impf-api"
@@ -112,17 +117,24 @@ def load_check_data():
 
 @app.get('/')
 def index():
-    return load_check_data()
+    """Return the metadata."""
+    return load_metadata()
 
 
 @app.get("/total/", response_model=Vaccination)
 def total_data():
+    """Return country total statistics."""
     result =  consolidate_data("total")
     return result
 
 
 @app.get("/states/", response_model=Vaccination)
 def state_data(state_code: str = Query(..., min_length=2, max_length=2)):
+    """Return state statistics. Requires a querry paramater to
+    be passed with 2 digit state code.
+
+    ?state_code=hh
+    """
     if state_code in state_list:
         result =  consolidate_data("de-"+state_code)
         return result
