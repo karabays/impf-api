@@ -125,4 +125,6 @@ def main():
     data_dict["metadata"] = metadata()
     save_json(data_dict)
 
-main()
+
+if __name__ == "__main__":
+    main()
