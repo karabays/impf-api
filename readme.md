@@ -13,7 +13,7 @@ A simple api to serve data from https://impfdashboard.de/ built with FastAPI.
 
 First run the `dldata.py` file to download the data and setup cron job to check data periodically.
 
-    46 * * * * python3 /home/ubuntu/impf-api/dldata.py >/dev/null 2>&1### Data Update
+    46 * * * * python3 /home/ubuntu/impf-api/dldata.py >/dev/null 2>&1
 
 
 ### Running

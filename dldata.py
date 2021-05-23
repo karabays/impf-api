@@ -104,8 +104,8 @@ def save_json(data_dict):
     with open(base_path.joinpath('data.json'), 'w') as f:
         f.write(json.dumps(data_dict, indent=2))
 
-def main():
 
+def main():
     data_dict = {}
     deliveries = deliveries_timeseries(deliveries_timeseries_url)
     vaccinations = vaccinations_by_state(vaccinations_by_state_url)
